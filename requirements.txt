@@ -1,0 +1,4 @@
+Elixir==0.7.1
+#elixir 0.7.1 requires SQLAlchemy < 0.8
+#this might be a good reason to migrate away from Elixir, when I get around to it.
+SQLAlchemy==0.7.8

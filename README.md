@@ -10,7 +10,12 @@ This project uses two SQLite databases - one to hold scanned images of the cards
 
 Each scanned image belongs to exactly one card.
 
-- rowid - unique primary key
+- id - unique primary key
+- card\_id - a reference to the card record
+- status - a set of possible statuses this image could be in -
+    - unprocessed - this image is in the database, and recorded in the inventory system, but nothing further is known
+    - candidate\_match - an automated tool has proposed a recognition for this scanned image, but it needs verification.
+    - confident\_match - this card is confidently recognized - either by an automated tool with high confidence, or humane verification
 - scan\_png - BLOB, containing the png encoding of a scanned image
 
 ### inventory DB
@@ -19,7 +24,7 @@ Each scanned image belongs to exactly one card.
 
 This describes individual cards, including unique identifying information. Each card has exactly scanned\_image, and a location in exactly one box.
 
-- rowid - unique primary key
+- id - unique primary key
 - scanned\_image\_id - a reference to a single row in the scanned\_images db.
 - box\_id - a reference to the box this card is in.
 - box\_index - an integer describing where in the box this card is. Interperetation depends on the box, and is not currently defined.
@@ -32,7 +37,7 @@ This describes a box or other container that cards are kept in. Does not necessa
 
 Each box is part of exactly one collection, and holds any number of cards.
 
-- rowid - unique primary key
+- id - unique primary key
 - name - human-readable name of this box.
 - collection\_id - a reference to the collection this box is a part of.
 - collection\_index - an integer describing the position of this box within the collection. Interperetation depends on the collection, is not currently defined, and may not be meaningful for all collections.
@@ -43,7 +48,7 @@ This describes a grouping of boxes that have similar function. Examples are - a 
 
 Each collection has any number of boxes.
 
-- rowid - unique primary key
+- id - unique primary key
 - name - human readable name.
 
 

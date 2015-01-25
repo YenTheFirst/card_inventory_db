@@ -60,6 +60,23 @@ Each collection has any number of boxes.
 
 This project grew out of the card\_scan project, and is a refinement of the inventory system used in there. The included utils.migrate tool can be used to convert an older inventory db to this new style.
 
+usage: `python -m utils.migrate <original_db_name> <new_inventory_db> <new_scanned_image_db>`
+
+the migrate tool makes a few assumptions, since the new and old inventory schemas have several conceptual differences.
+
+It will make 3 default collections - **numbered\_boxes**, **other\_boxes**, and **decks**. It will make boxes based on what the old card's boxes appear to be. It determine's a card's apparent box & collection as follows - 
+
+- cards that are **temporarily\_out** will be placed in a **deck** box, named by the reason on their most recent inv\_log.
+- cards that are **present**, and have a box that looks like an integer, will be placed in a **numbered\_boxes** box of the appropriate name
+- cards that are **present**, but don't have an integer box name, will be placed in an **other\_boxes** box of the apropriate name
+- all other cards are put in **other\_boxes** / **unknown**.
+
+cards with the inventory status 'permanently\_gone' are not copied to the new database.
+
+The *is\_foil*, *language*, and *condition* fields are copied over into the *notes* field, but only if they have non-default values. False, 'english', and 'near-mint' are considered to be default values.
+
+When creating boxes, numbered boxes are created with a collection\_index equal to their name. All other boxes are just given a unique collection\_index.
+
 
 
 # Licensing

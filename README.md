@@ -1,5 +1,9 @@
 This project describes a database for keeping inventory of a collection of collectible cards.
 
+# Setup
+
+from within the package, running `python -m utils.setup_db <inventory_filename> <scanned_images_filename>` will create the databases.
+
 # Schema
 
 This project uses two SQLite databases - one to hold scanned images of the cards, and one to hold the remainder of the inventory. The databases are split this way so that the main inventory table is small, lightweight, and quick to query, and so the inventory db can be transferred around quickly. Other projects using this module can choose to not load or use the scanned images db.
